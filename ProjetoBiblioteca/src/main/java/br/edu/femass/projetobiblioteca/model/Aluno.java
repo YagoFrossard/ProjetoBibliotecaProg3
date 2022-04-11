@@ -8,4 +8,9 @@ public class Aluno extends Usuario{
         super(nome);
         this.prazoDev = 5;
     }
+
+    @Override
+    public String toString() {
+        return id + ": Aluno " + nome;
+    }
 }

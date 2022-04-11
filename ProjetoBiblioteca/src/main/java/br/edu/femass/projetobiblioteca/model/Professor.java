@@ -9,4 +9,8 @@ public class Professor extends Usuario{
         this.prazoDev = 30;
     }
 
+    @Override
+    public String toString() {
+        return id + ": Professor " + nome;
+    }
 }

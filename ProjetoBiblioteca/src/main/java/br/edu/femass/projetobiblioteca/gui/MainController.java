@@ -16,6 +16,15 @@ import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
 
+    /*
+    private Boolean autoresAberto = false;
+    private Boolean generosAberto = false;
+    private Boolean livrosAberto = false;
+    private Boolean usuariosAberto = false;
+    private Boolean emprestimosAberto = false;
+    private Boolean copiasAberto = false;
+     */
+
     @FXML
     private Button BtnAutores;
 
@@ -71,7 +80,14 @@ public class MainController implements Initializable {
     private void BtnEmprestimos_Click(){}
 
     @FXML
-    private void BtnUsuarios_Click(){}
+    private void BtnUsuarios_Click(ActionEvent evento) throws IOException {
+        Stage janelaUsuarios = new Stage();
+        FXMLLoader fxmlLoaderUsuarios = new FXMLLoader(HelloApplication.class.getResource("usuario-view.fxml"));
+        Scene usuarioScene = new Scene(fxmlLoaderUsuarios.load(), 760, 406);
+        janelaUsuarios.setTitle("Usuários");
+        janelaUsuarios.setScene(usuarioScene);
+        janelaUsuarios.show();
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

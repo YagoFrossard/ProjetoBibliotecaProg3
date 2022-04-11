@@ -42,4 +42,6 @@ public class Usuario {
     public void setPrazoDev(Integer prazoDev) {
         this.prazoDev = prazoDev;
     }
+
+    public Integer getId(){ return this.id; }
 }
