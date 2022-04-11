@@ -1,0 +1,4 @@
+--patch-module
+br.edu.femass.projetobiblioteca=_
+--add-reads
+br.edu.femass.projetobiblioteca=ALL-UNNAMED
