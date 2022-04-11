@@ -1,5 +1,8 @@
 package br.edu.femass.projetobiblioteca.gui;
 
+import br.edu.femass.projetobiblioteca.dao.AutorDao;
+import br.edu.femass.projetobiblioteca.dao.GeneroDao;
+import br.edu.femass.projetobiblioteca.dao.LivroDao;
 import br.edu.femass.projetobiblioteca.model.Autor;
 import br.edu.femass.projetobiblioteca.model.Genero;
 import br.edu.femass.projetobiblioteca.model.Livro;
@@ -19,8 +22,9 @@ import java.util.ResourceBundle;
 
 public class LivroController implements Initializable {
 
-    //private LivroDao livroDao = new LivroDao();
-    public List<Livro> listaLivros = new ArrayList<>();
+    private LivroDao livroDao = new LivroDao();
+    private AutorDao autorDao = new AutorDao();
+    private GeneroDao generoDao = new GeneroDao();
 
     @FXML
     private ListView<Livro> LstLivros;
@@ -78,25 +82,26 @@ public class LivroController implements Initializable {
     }
 
     private void atualizarLista(){
-        /*
         List<Livro> livros;
+        List<Autor> autores;
+        List<Genero> generos;
         try {
             livros = livroDao.listar();
+            autores = autorDao.listar();
+            generos = generoDao.listar();
         } catch (Exception e) {
             livros = new ArrayList<>();
+            autores = new ArrayList<>();
+            generos = new ArrayList<>();
         }
         ObservableList<Livro> livrosOb = FXCollections.observableArrayList(livros);
         LstLivros.setItems(livrosOb);
 
-        ObservableList<Autor> autores = FXCollections.observableArrayList(Autor.todosAutores);
-        CboAutor.setItems(autores);
+        ObservableList<Autor> autoresOb = FXCollections.observableArrayList(autores);
+        CboAutor.setItems(autoresOb);
 
-        ObservableList<Genero> generos = FXCollections.observableArrayList(Genero.todosGeneros);
-        CboGenero.setItems(generos);
-
-        ObservableList<Livro> livrosOb = FXCollections.observableArrayList(listaLivros);
-        LstLivros.setItems(livrosOb);
-         */
+        ObservableList<Genero> generosOb = FXCollections.observableArrayList(generos);
+        CboGenero.setItems(generosOb);
     }
 
     private void exibirLivro(){
@@ -131,21 +136,18 @@ public class LivroController implements Initializable {
         Livro livro = LstLivros.getSelectionModel().getSelectedItem();
         if(livro==null) return;
 
-        /*
         try{
             livroDao.excluir(livro);
         }catch(Exception e){
             e.printStackTrace();
         }
 
-         */
-        listaLivros.remove(livro);
         atualizarLista();
     }
 
     @FXML
     private void BtnAtualizar_Click(ActionEvent evento) throws Exception {
-
+        atualizarLista();
     }
 
     @FXML
@@ -156,7 +158,7 @@ public class LivroController implements Initializable {
                     TxtNome.getText());
             livro.getAutores().add(CboAutor.getValue());
             livro.getGeneros().add(CboGenero.getValue());
-            listaLivros.add(livro);
+            livroDao.gravar(livro);
         }catch (NumberFormatException e){
             System.out.println("Erro: Texto em campo de número! Tente novamente.");
         }catch (Exception e){
@@ -165,14 +167,6 @@ public class LivroController implements Initializable {
             atualizarLista();
             habilitarInterface(false);
         }
-        /*
-        try {
-            livroDao.gravar(livro);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-         */
-
     }
 
     @FXML

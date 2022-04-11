@@ -1,8 +1,6 @@
 package br.edu.femass.projetobiblioteca.gui;
 
-//import br.edu.femass.projetobiblioteca.dao.GeneroDao;
-import br.edu.femass.projetobiblioteca.dao.AutorDao;
-import br.edu.femass.projetobiblioteca.model.Autor;
+import br.edu.femass.projetobiblioteca.dao.GeneroDao;
 import br.edu.femass.projetobiblioteca.model.Genero;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,8 +18,7 @@ import java.util.ResourceBundle;
 
 public class GeneroController implements Initializable{
 
-    //private GeneroDao generoDao = new GeneroDao();
-    public List<Genero> listaGeneros = new ArrayList<>();
+    private GeneroDao generoDao = new GeneroDao();
 
     @FXML
     private ListView<Genero> LstGeneros;
@@ -64,7 +61,6 @@ public class GeneroController implements Initializable{
     }
 
     private void atualizarLista(){
-        /*
         List<Genero> generos;
         try {
             generos = generoDao.listar();
@@ -72,9 +68,6 @@ public class GeneroController implements Initializable{
             generos = new ArrayList<>();
         }
         ObservableList<Genero> generosOb = FXCollections.observableArrayList(generos);
-        LstGeneros.setItems(generosOb);
-        */
-        ObservableList<Genero> generosOb = FXCollections.observableArrayList(listaGeneros);
         LstGeneros.setItems(generosOb);
     }
 
@@ -107,35 +100,30 @@ public class GeneroController implements Initializable{
         Genero genero = LstGeneros.getSelectionModel().getSelectedItem();
         if(genero==null) return;
 
-        /*
         try{
             generoDao.excluir(genero);
         }catch(Exception e){
             e.printStackTrace();
         }
 
-         */
-        listaGeneros.remove(genero);
         atualizarLista();
     }
 
     @FXML
     private void BtnAtualizar_Click(ActionEvent evento) throws Exception {
-
+        atualizarLista();
     }
 
     @FXML
     private void BtnAceitar_Click(ActionEvent evento){
         Genero genero = new Genero(TxtGenero.getText(), TxtDescricao.getText());
-        /*
+
         try {
             generoDao.gravar(genero);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-         */
-        listaGeneros.add(genero);
         atualizarLista();
         habilitarInterface(false);
     }
@@ -147,6 +135,6 @@ public class GeneroController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        atualizarLista();
     }
 }
