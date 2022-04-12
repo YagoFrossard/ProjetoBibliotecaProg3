@@ -1,11 +1,14 @@
 package br.edu.femass.projetobiblioteca.model;
 
+import br.edu.femass.projetobiblioteca.dao.CopiaDao;
+
 public class Copia {
 
     private Integer codigo;
     private Livro livroOriginal;
     private Boolean fixo;
-    private static Integer proxCodigo = 0;
+    private Boolean isAlugado = false;
+    private static Integer proxCodigo = pegarProximoCodigo();
 
     public Copia(){}
 
@@ -14,6 +17,18 @@ public class Copia {
         this.fixo = fixo;
         this.codigo = proxCodigo;
         proxCodigo++;
+    }
+
+    public static Integer pegarProximoCodigo(){
+        CopiaDao dao = new CopiaDao();
+        Integer proxCodigo = 0;
+        try{
+            proxCodigo = dao.listar().get(dao.listar().size() - 1).getCodigo() + 1;
+        }catch (Exception e){
+            proxCodigo = 0;
+        }finally {
+            return proxCodigo;
+        }
     }
 
     public Livro getLivroOriginal() {
@@ -30,5 +45,13 @@ public class Copia {
 
     public void setFixo(Boolean fixo) {
         this.fixo = fixo;
+    }
+
+    public Integer getCodigo() {
+        return codigo;
+    }
+
+    public Boolean getAlugado() {
+        return isAlugado;
     }
 }

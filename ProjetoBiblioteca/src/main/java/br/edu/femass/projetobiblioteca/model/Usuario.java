@@ -1,5 +1,7 @@
 package br.edu.femass.projetobiblioteca.model;
 
+import br.edu.femass.projetobiblioteca.dao.UsuarioDao;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +11,7 @@ public class Usuario {
     protected String nome;
     protected Integer prazoDev;
     protected List<Emprestimo> emprestimos = new ArrayList<>();
-    private static Integer proxId = 0;
+    protected static Integer proxId = pegarProximoId();
 
     public Usuario(){}
 
@@ -17,6 +19,18 @@ public class Usuario {
         this.nome = nome;
         this.id = proxId;
         proxId++;
+    }
+
+    public static Integer pegarProximoId(){
+        UsuarioDao dao = new UsuarioDao();
+        Integer proxId = 0;
+        try{
+            proxId = dao.listar().get(dao.listar().size() - 1).getId() + 1;
+        }catch (Exception e){
+            proxId = 0;
+        }finally {
+            return proxId;
+        }
     }
 
     public int pegarEmprestimosAtivos(){
