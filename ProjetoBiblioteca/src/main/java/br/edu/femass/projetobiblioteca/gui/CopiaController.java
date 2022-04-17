@@ -2,9 +2,7 @@ package br.edu.femass.projetobiblioteca.gui;
 
 import br.edu.femass.projetobiblioteca.dao.CopiaDao;
 import br.edu.femass.projetobiblioteca.dao.LivroDao;
-import br.edu.femass.projetobiblioteca.model.Autor;
 import br.edu.femass.projetobiblioteca.model.Copia;
-import br.edu.femass.projetobiblioteca.model.Genero;
 import br.edu.femass.projetobiblioteca.model.Livro;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,7 +20,6 @@ import java.util.ResourceBundle;
 
 public class CopiaController implements Initializable {
 
-    //TODO: Finalizar controller de Cópia
     private CopiaDao copiaDao = new CopiaDao();
     private LivroDao livroDao = new LivroDao();
 
@@ -51,16 +48,16 @@ public class CopiaController implements Initializable {
     private ComboBox<Livro> CboLivro;
 
     @FXML
-    private CheckBox ChkFixo;
+    private CheckBox CkbFixo;
 
     private void limparTela() {
         TxtCodigo.setText("");
         CboLivro.setValue(null);
-        ChkFixo.setSelected(false);
+        CkbFixo.setSelected(false);
     }
 
     private void habilitarInterface(Boolean incluir){
-        ChkFixo.setDisable(!incluir);
+        CkbFixo.setDisable(!incluir);
         BtnAceitar.setDisable(!incluir);
         BtnCancelar.setDisable(!incluir);
         BtnAdicionar.setDisable(incluir);
@@ -72,12 +69,11 @@ public class CopiaController implements Initializable {
 
     private void atualizarLista(){
         List<Copia> copias;
-        List<Livro> livros;
+        List<Livro> livros = new ArrayList<>();
         try {
             livros = livroDao.listar();
             copias = copiaDao.listar();
         } catch (Exception e) {
-            livros = new ArrayList<>();
             copias = new ArrayList<>();
         }
         ObservableList<Copia> copiasOb = FXCollections.observableArrayList(copias);
@@ -92,7 +88,7 @@ public class CopiaController implements Initializable {
         if(copia==null) return;
         TxtCodigo.setText(copia.getCodigo().toString());
         CboLivro.setValue(copia.getLivroOriginal());
-        ChkFixo.setSelected(copia.getFixo());
+        CkbFixo.setSelected(copia.getFixo());
     }
 
     @FXML
@@ -116,7 +112,11 @@ public class CopiaController implements Initializable {
         Copia copia = LstCopias.getSelectionModel().getSelectedItem();
         if(copia==null) return;
         if(copia.getFixo()){
-            System.out.println("Não pode deletar um livro fixo!");
+            System.out.println("Não pode deletar uma cópia fixa!");
+            return;
+        }
+        if(copia.getAlugado()){
+            System.out.println("Não pode deletar uma cópia alugada!");
             return;
         }
         try{
@@ -131,6 +131,24 @@ public class CopiaController implements Initializable {
     @FXML
     private void BtnAtualizar_Click(ActionEvent evento) throws Exception {
         atualizarLista();
+    }
+
+    @FXML
+    private void BtnAceitar_Click(ActionEvent evento){
+        try{
+            Copia copia = new Copia(CboLivro.getValue(), CkbFixo.isSelected());
+            copiaDao.gravar(copia);
+        }catch (Exception e){
+            System.out.println("Algum erro ocorreu, tente novamente!");
+        }finally{
+            atualizarLista();
+            habilitarInterface(false);
+        }
+    }
+
+    @FXML
+    private void BtnCancelar_Click(ActionEvent evento){
+        habilitarInterface(false);
     }
 
     @Override

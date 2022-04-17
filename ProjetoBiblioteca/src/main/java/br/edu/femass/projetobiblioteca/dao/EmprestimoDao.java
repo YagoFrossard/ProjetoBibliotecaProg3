@@ -13,15 +13,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class UsuarioDao implements Dao<Usuario> {
+public class EmprestimoDao implements Dao<Emprestimo> {
 
     private final XStream xstream = new XStream();
-    private static List<Usuario> usuarios = new ArrayList<>();
+    private static List<Emprestimo> emprestimos = new ArrayList<>();
 
     public void updateXML(){
-        String xml = xstream.toXML(usuarios);
+        String xml = xstream.toXML(emprestimos);
         try {
-            FileWriter fw = new FileWriter("usuarios.xml");
+            FileWriter fw = new FileWriter("emprestimos.xml");
             fw.write(xml);
             fw.close();
         } catch (IOException e) {
@@ -30,28 +30,32 @@ public class UsuarioDao implements Dao<Usuario> {
     }
 
     @Override
-    public void gravar(Usuario objeto) {
-        usuarios.add(objeto);
+    public void gravar(Emprestimo objeto) {
+        emprestimos.add(objeto);
         updateXML();
     }
 
     @Override
-    public List<Usuario> listar() {
+    public List<Emprestimo> listar() {
+        xstream.alias("Copia", Copia.class);
+        xstream.alias("Autor", Autor.class);
+        xstream.alias("Genero", Genero.class);
+        xstream.alias("LivroOriginal", Livro.class);
         xstream.alias("Aluno", Aluno.class);
         xstream.alias("Professor", Professor.class);
-        xstream.alias("Emprestimo", Emprestimo.class);
+        xstream.alias("Empréstimo", Emprestimo.class);
         xstream.addPermission(NoTypePermission.NONE);
         xstream.addPermission(NullPermission.NULL);
         xstream.addPermission(PrimitiveTypePermission.PRIMITIVES);
         xstream.allowTypeHierarchy(Collection.class);
-        xstream.allowTypes(new Class[] {Aluno.class, Professor.class, Usuario.class, Emprestimo.class});
-        usuarios = (List<Usuario>) xstream.fromXML(new File("usuarios.xml"));
-        return usuarios;
+        xstream.allowTypes(new Class[] {Livro.class, Genero.class, Autor.class, Copia.class, Usuario.class,
+        Professor.class, Aluno.class, Emprestimo.class});
+        emprestimos = (List<Emprestimo>) xstream.fromXML(new File("emprestimos.xml"));
+        return emprestimos;
     }
 
     @Override
-    public void excluir(Usuario objeto) {
-        usuarios.remove(objeto);
+    public void excluir(Emprestimo objeto) {
         updateXML();
     }
 }

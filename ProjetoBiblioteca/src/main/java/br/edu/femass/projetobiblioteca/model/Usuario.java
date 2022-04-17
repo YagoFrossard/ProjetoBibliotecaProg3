@@ -58,4 +58,8 @@ public class Usuario {
     }
 
     public Integer getId(){ return this.id; }
+
+    public List<Emprestimo> getEmprestimos() {
+        return emprestimos;
+    }
 }

@@ -1,6 +1,5 @@
 package br.edu.femass.projetobiblioteca.model;
 
-
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -15,18 +14,26 @@ public class Emprestimo {
     public Emprestimo(){}
 
     public Emprestimo(Usuario usuario, Copia copia){
-        if(podeEmprestar(usuario)) {
-            this.usuario = usuario;
-            this.copia = copia;
-            this.dataPrevistaDevolucao = dataEmprestimo.plusDays((long) usuario.getPrazoDev());
-        }else{
+        if(!podeEmprestar(usuario)){
             System.out.println("Esse usuário já possui 5 empréstimos ativos!");
             return;
         }
+        if(!estaDisponivel(copia)){
+            System.out.println("Essa cópia nãos está disponível para emprestar!");
+            return;
+        }
+        this.usuario = usuario;
+        this.copia = copia;
+        this.dataPrevistaDevolucao = dataEmprestimo.plusDays((long) usuario.getPrazoDev());
     }
 
     public Boolean podeEmprestar(Usuario usuario){
         return usuario.pegarEmprestimosAtivos() < 5;
+    }
+
+    public Boolean estaDisponivel(Copia copia) {
+        if(copia.getFixo() || copia.getAlugado()) return false;
+        return true;
     }
 
     public Boolean verificarDevolucao(){
@@ -55,5 +62,19 @@ public class Emprestimo {
 
     public void setDataPrevistaDevolucao(LocalDate dataPrevistaDevolucao) {
         this.dataPrevistaDevolucao = dataPrevistaDevolucao;
+    }
+
+    @Override
+    public String toString(){
+        String finalizado = this.verificarDevolucao() ? "Finalizado" : "Pendente";
+        return usuario.getNome() + " - " + copia.getCodigo() + finalizado;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public Copia getCopia() {
+        return copia;
     }
 }

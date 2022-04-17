@@ -6,7 +6,7 @@ public class Copia {
 
     private Integer codigo;
     private Livro livroOriginal;
-    private Boolean fixo;
+    private Boolean fixo = false;
     private Boolean isAlugado = false;
     private static Integer proxCodigo = pegarProximoCodigo();
 
@@ -53,5 +53,15 @@ public class Copia {
 
     public Boolean getAlugado() {
         return isAlugado;
+    }
+
+    public void setIsAlugado(Boolean b){
+        this.isAlugado = b;
+    }
+
+    @Override
+    public String toString(){
+        String fixo = getFixo() ? "Fixo: " : "";
+        return codigo + " - " + fixo + livroOriginal.getNome();
     }
 }

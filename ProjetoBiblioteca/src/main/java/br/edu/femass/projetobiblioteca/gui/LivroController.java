@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class LivroController implements Initializable {
-
+    //TODO: colocar mais de um autor/genero nos livros
     private LivroDao livroDao = new LivroDao();
     private AutorDao autorDao = new AutorDao();
     private GeneroDao generoDao = new GeneroDao();
@@ -83,16 +83,14 @@ public class LivroController implements Initializable {
 
     private void atualizarLista(){
         List<Livro> livros;
-        List<Autor> autores;
-        List<Genero> generos;
+        List<Autor> autores = new ArrayList<>();
+        List<Genero> generos = new ArrayList<>();
         try {
-            livros = livroDao.listar();
             autores = autorDao.listar();
             generos = generoDao.listar();
+            livros = livroDao.listar();
         } catch (Exception e) {
             livros = new ArrayList<>();
-            autores = new ArrayList<>();
-            generos = new ArrayList<>();
         }
         ObservableList<Livro> livrosOb = FXCollections.observableArrayList(livros);
         LstLivros.setItems(livrosOb);

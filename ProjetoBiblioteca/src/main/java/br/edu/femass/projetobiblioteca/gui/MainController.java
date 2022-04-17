@@ -74,10 +74,24 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void BtnCopias_Click(){}
+    private void BtnCopias_Click(ActionEvent evento) throws IOException {
+        Stage janelaCopias = new Stage();
+        FXMLLoader fxmlLoaderCopias = new FXMLLoader(HelloApplication.class.getResource("copia-view.fxml"));
+        Scene copiaScene = new Scene(fxmlLoaderCopias.load(), 760, 406);
+        janelaCopias.setTitle("Cópias");
+        janelaCopias.setScene(copiaScene);
+        janelaCopias.show();
+    }
 
     @FXML
-    private void BtnEmprestimos_Click(){}
+    private void BtnEmprestimos_Click(ActionEvent evento) throws IOException {
+        Stage janelaEmprestimos = new Stage();
+        FXMLLoader fxmlLoaderEmprestimos = new FXMLLoader(HelloApplication.class.getResource("emprestimo-view.fxml"));
+        Scene emprestimoScene = new Scene(fxmlLoaderEmprestimos.load(), 760, 406);
+        janelaEmprestimos.setTitle("Usuários");
+        janelaEmprestimos.setScene(emprestimoScene);
+        janelaEmprestimos.show();
+    }
 
     @FXML
     private void BtnUsuarios_Click(ActionEvent evento) throws IOException {

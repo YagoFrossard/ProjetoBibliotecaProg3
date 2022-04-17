@@ -24,7 +24,7 @@ public class CopiaDao implements Dao<Copia> {
     public void updateXML(){
         String xml = xstream.toXML(copias);
         try {
-            FileWriter fw = new FileWriter("autores.xml");
+            FileWriter fw = new FileWriter("copias.xml");
             fw.write(xml);
             fw.close();
         } catch (IOException e) {
