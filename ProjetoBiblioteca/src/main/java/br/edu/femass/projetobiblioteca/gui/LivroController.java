@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class LivroController implements Initializable {
-    //TODO: colocar mais de um autor/genero nos livros
+
     private LivroDao livroDao = new LivroDao();
     private AutorDao autorDao = new AutorDao();
     private GeneroDao generoDao = new GeneroDao();

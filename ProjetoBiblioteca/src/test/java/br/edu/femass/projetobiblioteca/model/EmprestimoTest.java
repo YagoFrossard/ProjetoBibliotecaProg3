@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 
 public class EmprestimoTest {
-    //TODO: Terminar testes unitários
+
     //Mock-objects
     Livro livro = new Livro(1990, 5, "O Dragão de Botas");
     Copia copia = new Copia(livro, false);
@@ -48,5 +48,16 @@ public class EmprestimoTest {
             aluno.emprestimos.add(new Emprestimo());
         }
         Assertions.assertFalse(emprestimo.podeEmprestar(aluno));
+    }
+
+    @Test
+    void disponivelParaEmprestimo(){
+        Assertions.assertTrue(emprestimo.estaDisponivel(emprestimo.getCopia()));
+    }
+
+    @Test
+    void naoDisponivelParaEmprestimo(){
+        emprestimo.getCopia().setFixo(true);
+        Assertions.assertFalse(emprestimo.estaDisponivel(emprestimo.getCopia()));
     }
 }
