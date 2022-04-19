@@ -37,14 +37,19 @@ public class UsuarioDao implements Dao<Usuario> {
 
     @Override
     public List<Usuario> listar() {
+        xstream.alias("Copia", Copia.class);
+        xstream.alias("Autor", Autor.class);
+        xstream.alias("Genero", Genero.class);
+        xstream.alias("LivroOriginal", Livro.class);
         xstream.alias("Aluno", Aluno.class);
         xstream.alias("Professor", Professor.class);
-        xstream.alias("Emprestimo", Emprestimo.class);
+        xstream.alias("Empréstimo", Emprestimo.class);
         xstream.addPermission(NoTypePermission.NONE);
         xstream.addPermission(NullPermission.NULL);
         xstream.addPermission(PrimitiveTypePermission.PRIMITIVES);
         xstream.allowTypeHierarchy(Collection.class);
-        xstream.allowTypes(new Class[] {Aluno.class, Professor.class, Usuario.class, Emprestimo.class});
+        xstream.allowTypes(new Class[] {Livro.class, Genero.class, Autor.class, Copia.class, Usuario.class,
+                Professor.class, Aluno.class, Emprestimo.class});
         usuarios = (List<Usuario>) xstream.fromXML(new File("usuarios.xml"));
         return usuarios;
     }

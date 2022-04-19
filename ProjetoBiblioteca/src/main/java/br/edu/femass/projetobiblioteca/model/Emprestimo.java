@@ -64,10 +64,14 @@ public class Emprestimo {
         this.dataPrevistaDevolucao = dataPrevistaDevolucao;
     }
 
+    public LocalDate getDataEfetivaDevolucao() {
+        return dataEfetivaDevolucao;
+    }
+
     @Override
     public String toString(){
         String finalizado = this.verificarDevolucao() ? "Finalizado" : "Pendente";
-        return usuario.getNome() + " - " + copia.getCodigo() + finalizado;
+        return usuario.getNome() + " - Cópia " + copia.getCodigo() + " : " + finalizado;
     }
 
     public Usuario getUsuario() {

@@ -88,7 +88,7 @@ public class MainController implements Initializable {
         Stage janelaEmprestimos = new Stage();
         FXMLLoader fxmlLoaderEmprestimos = new FXMLLoader(HelloApplication.class.getResource("emprestimo-view.fxml"));
         Scene emprestimoScene = new Scene(fxmlLoaderEmprestimos.load(), 760, 406);
-        janelaEmprestimos.setTitle("Usuários");
+        janelaEmprestimos.setTitle("Empréstimos");
         janelaEmprestimos.setScene(emprestimoScene);
         janelaEmprestimos.show();
     }

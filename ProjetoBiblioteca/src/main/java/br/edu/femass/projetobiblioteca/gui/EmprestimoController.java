@@ -106,6 +106,7 @@ public class EmprestimoController implements Initializable {
         if(emprestimo==null) return;
         TxtRetirada.setText(emprestimo.getDataEmprestimo().toString());
         TxtPrevEntrega.setText(emprestimo.getDataPrevistaDevolucao().toString());
+        TxtEntrega.setText(emprestimo.getDataEfetivaDevolucao().toString());
         CboUsuario.setValue(emprestimo.getUsuario());
         CboCopia.setValue(emprestimo.getCopia());
     }
@@ -162,10 +163,11 @@ public class EmprestimoController implements Initializable {
         }
 
         try {
-            emprestimoDao.gravar(emprestimo);
             emprestimo.getUsuario().getEmprestimos().add(emprestimo);
+            emprestimo.getCopia().setIsAlugado(true);
             usuarioDao.updateXML();
             copiaDao.updateXML();
+            emprestimoDao.gravar(emprestimo);
         } catch (Exception e) {
             e.printStackTrace();
         }
